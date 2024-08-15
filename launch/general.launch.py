@@ -34,9 +34,6 @@ def generate_launch_description():
 
   model_type = LaunchConfiguration('model')
 
-  gazebo_launch_path = PathJoinSubstitution(
-        [get_package_share_directory(package_name), 'launch', 'gazebo.launch.py'])
-
   robot_state = IncludeLaunchDescription(
                       PythonLaunchDescriptionSource([os.path.join(
                         get_package_share_directory(package_name), 'launch', 'robot_state.launch.py')
@@ -59,11 +56,11 @@ def generate_launch_description():
                       condition=IfCondition(LaunchConfiguration('spawn_robot'))
   )
 
-  diff_drive_spawner = Node(
+  ack_drive_spawner = Node(
     package='controller_manager',
     executable='spawner',
-    name='diff_drive_spawner',
-    arguments=["diff_cont"]
+    name='ack_drive_spawner',
+    arguments=["ack_cont"]
   )
 
   joint_broad_spawner = Node(
@@ -77,6 +74,6 @@ def generate_launch_description():
   ld.add_action(robot_state)
   ld.add_action(gazebo)
   ld.add_action(spawn_entity)
-  ld.add_action(diff_drive_spawner)
+  ld.add_action(ack_drive_spawner)
   ld.add_action(joint_broad_spawner)
   return ld
