@@ -63,13 +63,13 @@ def generate_launch_description():
              executable='rviz2',
              name='rviz2',
              arguments=['-d', rviz2_config],
-             parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+             parameters=[],
              remappings=[
                 ('/tf', 'tf'),
                 ('/tf_static', 'tf_static')
              ],
              output='screen'
-  ),
+  )
 
   ack_drive_spawner = Node(
     package='controller_manager',
