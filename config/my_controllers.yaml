@@ -22,6 +22,7 @@ ack_cont:
     middle_wheels_names: ['right_middle_wheel_joint', 'left_middle_wheel_joint']
     front_wheels_names: ['right_front_wheel_joint', 'left_front_wheel_joint']
     open_loop: false
+    enable_odom_tf: true
     velocity_rolling_window_size: 10
     twist_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
     pose_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]

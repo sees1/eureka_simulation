@@ -21,6 +21,15 @@ ARGUMENTS = [
     DeclareLaunchArgument('spawn_robot', default_value='true',
                           choices=['true', 'false'],
                           description='Spawn the eureka robot model.'),
+    DeclareLaunchArgument('mapping_mode', default_value='false',
+                          choices=['true', 'false'],
+                          description='Make map with lidar'),
+    DeclareLaunchArgument('localization_mode', default_value='false',
+                          choices=['true', 'false'],
+                          description='Localize with lidar'),
+    DeclareLaunchArgument('slam_mode', default_value='false',
+                          choices=['true', 'false'],
+                          description='Make SLAM with lidar'),
     DeclareLaunchArgument('model', default_value='eureka',
                           description='Model to use for simulation'),
     DeclareLaunchArgument('world_path', default_value='',
@@ -31,6 +40,7 @@ ARGUMENTS = [
 def generate_launch_description():
 
   package_name = 'eureka_simulation'
+  navigation_pkg = 'eureka_navigation'
 
   model_type = LaunchConfiguration('model')
 
@@ -56,6 +66,13 @@ def generate_launch_description():
                       condition=IfCondition(LaunchConfiguration('spawn_robot'))
   )
 
+  mapping_node = IncludeLaunchDescription(
+                      PythonLaunchDescriptionSource([os.path.join(
+                        get_package_share_directory(navigation_pkg), 'launch', 'slam.launch.py')
+                      ]),
+                      condition = IfCondition(LaunchConfiguration('mapping_mode'))
+  )
+
   rviz2_config = PathJoinSubstitution(
         [get_package_share_directory(package_name), 'rviz', 'eureka.rviz'])
 
@@ -70,6 +87,8 @@ def generate_launch_description():
              ],
              output='screen'
   )
+
+
 
   ack_drive_spawner = Node(
     package='controller_manager',
@@ -89,6 +108,7 @@ def generate_launch_description():
   ld.add_action(robot_state)
   ld.add_action(gazebo)
   ld.add_action(spawn_entity)
+  ld.add_action(mapping_node)
   ld.add_action(rviz)
   ld.add_action(ack_drive_spawner)
   ld.add_action(joint_broad_spawner)
