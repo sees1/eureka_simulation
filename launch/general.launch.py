@@ -56,6 +56,21 @@ def generate_launch_description():
                       condition=IfCondition(LaunchConfiguration('spawn_robot'))
   )
 
+  rviz2_config = PathJoinSubstitution(
+        [get_package_share_directory(package_name), 'rviz', 'eureka.rviz'])
+
+  rviz = Node(package='rviz2',
+             executable='rviz2',
+             name='rviz2',
+             arguments=['-d', rviz2_config],
+             parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+             remappings=[
+                ('/tf', 'tf'),
+                ('/tf_static', 'tf_static')
+             ],
+             output='screen'
+  ),
+
   ack_drive_spawner = Node(
     package='controller_manager',
     executable='spawner',
@@ -74,6 +89,7 @@ def generate_launch_description():
   ld.add_action(robot_state)
   ld.add_action(gazebo)
   ld.add_action(spawn_entity)
+  ld.add_action(rviz)
   ld.add_action(ack_drive_spawner)
   ld.add_action(joint_broad_spawner)
   return ld
