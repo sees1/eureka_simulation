@@ -14,9 +14,9 @@ ack_cont:
 
     publish_rate: 40.0
 
-    half_wheelbase: 0.325
-    middle_wheels_radius: 0.2
-    middle_wheel_track: 0.5
+    half_wheelbase: 0.4
+    middle_wheels_radius: 0.1
+    middle_wheel_track: 0.8
     reference_timeout: 2.0
     rear_wheels_names: ['right_rear_wheel_joint', 'left_rear_wheel_joint']
     middle_wheels_names: ['right_middle_wheel_joint', 'left_middle_wheel_joint']
