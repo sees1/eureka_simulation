@@ -27,9 +27,9 @@ ARGUMENTS = [
     DeclareLaunchArgument('localization_mode', default_value='false',
                           choices=['true', 'false'],
                           description='Localize with lidar'),
-    DeclareLaunchArgument('slam_mode', default_value='false',
+    DeclareLaunchArgument('navigation_mode', default_value='false',
                           choices=['true', 'false'],
-                          description='Make SLAM with lidar'),
+                          description='Make Navigation with lidar'),
     DeclareLaunchArgument('model', default_value='eureka',
                           description='Model to use for simulation'),
     DeclareLaunchArgument('world_path', default_value='',
@@ -68,7 +68,7 @@ def generate_launch_description():
 
   mapping_node = IncludeLaunchDescription(
                       PythonLaunchDescriptionSource([os.path.join(
-                        get_package_share_directory(navigation_pkg), 'launch', 'slam.launch.py')
+                        get_package_share_directory(navigation_pkg), 'launch', 'mapping.launch.py')
                       ]),
                       condition = IfCondition(LaunchConfiguration('mapping_mode'))
   )
@@ -88,6 +88,12 @@ def generate_launch_description():
              output='screen'
   )
 
+  localization_node = IncludeLaunchDescription(
+                      PythonLaunchDescriptionSource([os.path.join(
+                        get_package_share_directory(navigation_pkg), 'launch', 'localization.launch.py')
+                      ]),
+                      condition = IfCondition(LaunchConfiguration('localization_mode'))
+  )
 
 
   ack_drive_spawner = Node(
@@ -110,6 +116,7 @@ def generate_launch_description():
   ld.add_action(spawn_entity)
   ld.add_action(mapping_node)
   ld.add_action(rviz)
+  ld.add_action(localization_node)
   ld.add_action(ack_drive_spawner)
   ld.add_action(joint_broad_spawner)
   return ld
