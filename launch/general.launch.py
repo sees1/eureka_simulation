@@ -29,6 +29,9 @@ ARGUMENTS = [
     DeclareLaunchArgument('navigation_mode', default_value='false',
                           choices=['true', 'false'],
                           description='Make Navigation with lidar'),
+    DeclareLaunchArgument('navigation_slam_mode', default_value='false',
+                          choices=['true', 'false'],
+                          description='Make Navigation SLAM with lidar'),
     DeclareLaunchArgument('model', default_value='eureka',
                           description='Model to use for simulation'),
     DeclareLaunchArgument('world_path', default_value='',
@@ -114,6 +117,26 @@ def generate_launch_description():
     condition = IfCondition(LaunchConfiguration('navigation_mode'))
   )
 
+  navigation_slam_load = GroupAction([
+    ExecuteProcess(
+                cmd=[
+                    "ros2",
+                    "launch",
+                    "eureka_navigation",
+                    "slam.launch.py"
+                ]
+    ),
+    ExecuteProcess(
+                cmd=[
+                    "ros2",
+                    "launch",
+                    "eureka_navigation",
+                    "nav2.launch.py"
+                ]
+    )],
+    condition = IfCondition(LaunchConfiguration('navigation_slam_mode'))
+  )
+
   ack_drive_spawner = Node(
     package='controller_manager',
     executable='spawner',
@@ -136,6 +159,7 @@ def generate_launch_description():
   ld.add_action(rviz)
   ld.add_action(localization_node)
   ld.add_action(navigation_load)
+  ld.add_action(navigation_slam_load)
   ld.add_action(ack_drive_spawner)
   ld.add_action(joint_broad_spawner)
   return ld
