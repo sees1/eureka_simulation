@@ -28,7 +28,7 @@ def evaluate_spawn(context, *args, **kwargs):
   model = LaunchConfiguration('model').perform(context)
 
   pkg_path = os.path.join(get_package_share_directory('eureka_simulation'))
-  xacro_file = os.path.join(pkg_path, 'urdf', model + '.urdf.xacro')
+  xacro_file = os.path.join(pkg_path, 'description', model + '.urdf.xacro')
 
   robot_description_config = Command(['xacro ', xacro_file])
 
