@@ -28,5 +28,5 @@ ack_cont:
     velocity_rolling_window_size: 10
     twist_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
     pose_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
-    position_feedback: false
+    position_feedback: true
     use_stamped_vel: false
