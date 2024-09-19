@@ -63,7 +63,9 @@ def generate_launch_description():
 
   spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                       arguments=['-topic', 'robot_description',
-                                 '-entity', model_type],
+                                 '-entity', model_type,
+                                 '-x', '0.0',
+                                 '-y', '5.0'],
                       output='screen',
                       condition=IfCondition(LaunchConfiguration('spawn_robot'))
   )
@@ -123,15 +125,7 @@ def generate_launch_description():
                     "ros2",
                     "launch",
                     "eureka_navigation",
-                    "slam.launch.py"
-                ]
-    ),
-    ExecuteProcess(
-                cmd=[
-                    "ros2",
-                    "launch",
-                    "eureka_navigation",
-                    "nav2.launch.py"
+                    "nav2tune.launch.py"
                 ]
     )],
     condition = IfCondition(LaunchConfiguration('navigation_slam_mode'))
