@@ -14,9 +14,9 @@ ack_cont:
 
     publish_rate: 40.0
 
-    half_wheelbase: 0.4
-    wheels_radius: 0.1
-    wheel_track: 0.8
+    half_wheelbase: 0.21
+    wheels_radius: 0.06
+    wheel_track: 0.29
     reference_timeout: 2.0
     front_steer_mech_names: ['front_right_corner_joint', 'front_left_corner_joint']
     rear_steer_mech_names: ['back_right_corner_joint', 'back_left_corner_joint']
