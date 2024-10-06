@@ -30,3 +30,7 @@ ack_cont:
     pose_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
     position_feedback: true
     use_stamped_vel: false
+
+joint_broad:
+  ros__parameters:
+    extra_joints: [left_bogie_joint, right_bogie_joint, left_rocker_joint, right_rocker_joint, diff_brace_joint]

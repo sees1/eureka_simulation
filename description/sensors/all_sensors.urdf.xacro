@@ -30,7 +30,10 @@
   <!-- Hokuyo -->
   <xacro:include filename="$(find eureka_simulation)/description/sensors/hokuyo.urdf.xacro" /> 
 
-  <!-- Hokuyo -->
+  <!-- Xtion -->
   <xacro:include filename="$(find eureka_simulation)/description/sensors/asus_xtion.urdf.xacro" /> 
+
+  <!-- GPS -->
+  <xacro:include filename="$(find eureka_simulation)/description/sensors/gps.urdf.xacro" /> 
   
 </robot>
