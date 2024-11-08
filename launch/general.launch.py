@@ -8,7 +8,7 @@ from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
-from launch_ros.actions import Node
+from launch_ros.actions import Node, SetParameter
 
 ARGUMENTS = [
     DeclareLaunchArgument('use_rviz', default_value='true',
@@ -145,9 +145,26 @@ def generate_launch_description():
     arguments=["joint_broad"]
   )
 
+  ekf_for_odom = Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            output='screen',
+            parameters=[os.path.join(get_package_share_directory("eureka_simulation"), 'config', 'ekf.yaml')],
+  )
+
+  use_sim_time_param = SetParameter(name='use_sim_time', value=True)
+
+  imu_filter = IncludeLaunchDescription(
+                      PythonLaunchDescriptionSource([os.path.join(
+                        get_package_share_directory('imu_filter_madgwick'), 'launch', 'imu_filter.launch.py')
+                      ])
+  )
+
   ld = LaunchDescription(ARGUMENTS)
   ld.add_action(robot_state)
   ld.add_action(gazebo)
+  ld.add_action(use_sim_time_param)
   ld.add_action(spawn_entity)
   ld.add_action(mapping_node)
   ld.add_action(rviz)
@@ -156,4 +173,6 @@ def generate_launch_description():
   ld.add_action(navigation_slam_load)
   ld.add_action(ack_drive_spawner)
   ld.add_action(joint_broad_spawner)
+  ld.add_action(ekf_for_odom)
+  ld.add_action(imu_filter)
   return ld

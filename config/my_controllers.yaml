@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 30
+    update_rate: 15
     # use_sim_time: true
 
     ack_cont:
@@ -12,11 +12,11 @@ controller_manager:
 ack_cont:
   ros__parameters:
 
-    publish_rate: 40.0
+    publish_rate: 15.0
 
-    half_wheelbase: 0.21
+    half_wheelbase: 0.26
     wheels_radius: 0.06
-    wheel_track: 0.29
+    wheel_track: 0.31
     reference_timeout: 2.0
     front_steer_mech_names: ['front_right_corner_joint', 'front_left_corner_joint']
     rear_steer_mech_names: ['back_right_corner_joint', 'back_left_corner_joint']
@@ -24,7 +24,7 @@ ack_cont:
     middle_wheels_names: ['mid_right_wheel_joint', 'mid_left_wheel_joint']
     front_wheels_names: ['front_right_wheel_joint', 'front_left_wheel_joint']
     open_loop: true
-    enable_odom_tf: true
+    enable_odom_tf: false
     velocity_rolling_window_size: 10
     twist_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
     pose_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
