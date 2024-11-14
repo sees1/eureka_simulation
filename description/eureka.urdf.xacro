@@ -165,16 +165,16 @@
     <xacro:sensor_hokuyo prefix="laser" parent="base_link" min_angle="-1.0" max_angle="1.0">
         <origin xyz="0.17 0 0.005" rpy="0 0 0"/>
     </xacro:sensor_hokuyo>   
-    
-    <xacro:sensor_imu prefix="imu" parent="base_link">
-        <!-- <origin xyz="-0.32 0 0.05" rpy="0 0.5 0"/> -->
-        <origin xyz="0 0 -0.04" rpy="0 0 0"/>
-    </xacro:sensor_imu>
 
     <xacro:sensor_asus_xtion prefix="camera" parent="base_link">
         <origin xyz="0.215 0 0.065" rpy="0 0.4 0"/>
         <!-- <origin xyz="0.212 0 0.065" rpy="0 0 0"/> -->
     </xacro:sensor_asus_xtion>
+
+    <xacro:sensor_imu prefix="imu" parent="camera_link">
+        <!-- <origin xyz="-0.32 0 0.05" rpy="0 0.5 0"/> -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:sensor_imu>
 
     <xacro:sensor_gps prefix="gps" parent="base_link">
         <origin xyz="0 0 0" rpy="0 0 0"/>
