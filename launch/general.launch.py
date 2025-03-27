@@ -65,7 +65,7 @@ def generate_launch_description():
                       arguments=['-topic', 'robot_description',
                                  '-entity', model_type,
                                  '-x', '0.0',
-                                 '-y', '5.0'],
+                                 '-y', '0.0'],
                       output='screen',
                       condition=IfCondition(LaunchConfiguration('spawn_robot'))
   )
@@ -174,5 +174,5 @@ def generate_launch_description():
   ld.add_action(ack_drive_spawner)
   ld.add_action(joint_broad_spawner)
   ld.add_action(ekf_for_odom)
-  ld.add_action(imu_filter)
+  # ld.add_action(imu_filter)
   return ld

@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 15
+    update_rate: 10
     # use_sim_time: true
 
     ack_cont:
@@ -12,7 +12,7 @@ controller_manager:
 ack_cont:
   ros__parameters:
 
-    publish_rate: 15.0
+    publish_rate: 10.0
 
     half_wheelbase: 0.26
     wheels_radius: 0.06
