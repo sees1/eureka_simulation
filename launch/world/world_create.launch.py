@@ -48,7 +48,8 @@ def evaluate_spawn(context, *args, **kwargs):
                                                       'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
   )
 
-  spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
+  spawn_entity = Node(package='gazebo_ros',
+                      executable='spawn_entity.py',
                       arguments=['-topic', 'robot_description',
                                  '-entity', model,
                                  '-x', '0.0',

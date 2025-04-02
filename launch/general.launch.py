@@ -32,7 +32,7 @@ def generate_launch_description():
 
   # launch's path
   world_launch_path = os.path.join(get_package_share_directory(package_name), 'launch', 'world', 'world_create.launch.py')
-  localization_launch_path = os.path.join(get_package_share_directory(package_name), 'launch', 'world', 'world_create.launch.py')
+  localization_launch_path = os.path.join(get_package_share_directory(package_name), 'launch', 'navigation', 'localization.launch.py')
   navigation_launch_path = os.path.join(get_package_share_directory(package_name), 'launch', 'navigation', 'navigation.launch.py')
 
   # rviz config
