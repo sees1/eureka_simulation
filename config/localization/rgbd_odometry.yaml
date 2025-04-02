@@ -14,6 +14,10 @@ rgbd_odometry:
     # 0=TORO, 1=g2o, 2=GTSAM and 3=Ceres
     Optimizer/Strategy: "0"
     Optimizer/GravitySigma: "0.3"
+    # Optimizer/VarianceIgnored: "false"
+    Optimizer/Robust: "true"
+    # Optimizer/PriorsIgnored: "false"         
+    # Optimizer/LandmarksIgnored: "true"
   
     # 0v=Frame-to-Map (F2M) 1=Frame-to-Frame (F2F) 2x=Fovis 3x=viso2 4x=DVO-SLAM 5x=ORB_SLAM2 6=OKVIS 7=LOAM 8=MSCKF_VIO 9=VINS-Fusion 10=OpenVINS 11=FLOAM 12=Open3D
     Odom/Strategy: "5"
@@ -23,7 +27,7 @@ rgbd_odometry:
     Odom/FilteringStrategy: "0"
     Odom/ParticleSize: "400"
     Odom/GuessMotion: "true"
-    Odom/AlignWithGround: "false"
+    Odom/AlignWithGround: "true"
   
     GFTT/MinDistance: "5.0"
     GFTT/QualityLevel: "0.001"

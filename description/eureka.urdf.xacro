@@ -167,7 +167,7 @@
     </xacro:sensor_hokuyo>   
 
     <xacro:sensor_asus_xtion prefix="camera" parent="base_link">
-        <origin xyz="0.215 0 0.065" rpy="0 0.4 0"/>
+        <origin xyz="0.215 0 0.065" rpy="0 0.3 0"/>
     </xacro:sensor_asus_xtion>
 
     <xacro:sensor_imu prefix="imu" parent="camera_link">

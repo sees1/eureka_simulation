@@ -57,7 +57,7 @@ def evaluate_spawn(context, *args, **kwargs):
         ("imu", "/imu"),
         ("odom", "/odom_rgbd")
     ],
-    arguments=["--ros-args", "--log-level", "info"],
+    arguments=["--ros-args", "--log-level", "warn"],
     condition = IfCondition(PythonExpression([pose_estimator, " == 'rgbd_odometry'"]))
   )
 

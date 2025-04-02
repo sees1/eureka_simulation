@@ -37,11 +37,14 @@ rtabmap:
     landmark_angular_variance: 0.9999
     Mem/IncrementalMemory: "true"
     Mem/InitWMWithAllNodes: "false"
-    Optimizer/Strategy: "2"
+    Optimizer/Strategy: "0"
     Icp/Epsilon: "0.01"
     # RGBD/ProximityPathMaxNeighbors: "0"
     RGBD/OptimizeStrategy: "2"
     RGBD/OptimizeRobust: "true"
     RGBD/OptimizeMaxError: "0"
     Optimizer/Robust: "true"
-    # Optimizer/Strategy: "1"
+    Grid/NormalK: "10"
+    Grid/ClusterRadius: "0.2"
+    # Grid/MinClusterSize:
+    #Optimizer/Strategy: "1"
