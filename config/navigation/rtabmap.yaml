@@ -2,7 +2,7 @@ rtabmap:
   ros__parameters:
     subscribe_depth: True
     subscribe_rgbd: False
-    subscribe_rgb: False
+    subscribe_rgb: True
     subscribe_stereo: False
     subscribe_scan: False
     subscribe_scan_cloud: True
@@ -37,14 +37,10 @@ rtabmap:
     landmark_angular_variance: 0.9999
     Mem/IncrementalMemory: "true"
     Mem/InitWMWithAllNodes: "false"
-    Optimizer/Strategy: "0"
+    Optimizer/Strategy: "2"
+    Optimizer/Robust: "true"
     Icp/Epsilon: "0.01"
     # RGBD/ProximityPathMaxNeighbors: "0"
-    RGBD/OptimizeStrategy: "2"
-    RGBD/OptimizeRobust: "true"
-    RGBD/OptimizeMaxError: "0"
-    Optimizer/Robust: "true"
     Grid/NormalK: "10"
     Grid/ClusterRadius: "0.2"
-    # Grid/MinClusterSize:
-    #Optimizer/Strategy: "1"
+    Grid/MinClusterSize: "5"
