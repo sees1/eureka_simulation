@@ -89,16 +89,9 @@
             <height>480</height>
           </image>
           <clip>
-            <near>0.3</near>
-            <far>8.0</far>
+            <near>0.01</near>
+            <far>50.0</far>
           </clip>
-	        <distortion>
-            <k1>0.00000001</k1>
-            <k2>0.00000001</k2>
-            <k3>0.00000001</k3>
-            <p1>0.00000001</p1>
-            <p2>0.00000001</p2>
-          </distortion>
         </camera>
         <plugin name="depth_camera_controller" filename="libgazebo_ros_camera.so">
           <ros>
@@ -161,8 +154,8 @@
             </qos>
           </ros>
           <frame_name>camera_frame</frame_name>
-          <min_depth>0.3</min_depth>
-          <max_depth>8.0</max_depth>
+          <min_depth>0.01</min_depth>
+          <max_depth>100.0</max_depth>
         </plugin>
       </sensor>
     </gazebo>

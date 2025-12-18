@@ -1,0 +1,57 @@
+rtabmap:
+  ros__parameters:
+    subscribe_depth: True
+    subscribe_rgbd: False
+    subscribe_rgb: True
+    subscribe_stereo: False
+    subscribe_scan: False
+    subscribe_scan_cloud: True
+    subscribe_user_data: False
+    subscribe_odom_info: False
+    frame_id: 'base_footprint'
+    map_frame_id: 'map'
+    odom_frame_id: 'odom'
+    publish_tf: True
+    initial_pose: ''
+    use_action_for_goal: False
+    ground_truth_frame_id: ''
+    ground_truth_base_frame_id: ''
+    odom_tf_angular_variance: 0.01
+    odom_tf_linear_variance: 0.001
+    odom_sensor_sync: False
+    wait_for_transform: 0.2
+    database_path: '~/.ros/rtabmap.db'
+    approx_sync: False
+    config_path: ''
+    topic_queue_size: 10
+    sync_queue_size: 10
+    qos_image: 2
+    qos_scan: 2
+    qos_odom: 1
+    qos_camera_info: 2
+    qos_imu: 2
+    qos_gps: 1
+    qos_user_data: 1
+    scan_normal_k: 0
+    landmark_linear_variance: 0.0001
+    landmark_angular_variance: 0.9999
+    # map_empty_ray_tracing: True
+    Mem/IncrementalMemory: "true"
+    Mem/InitWMWithAllNodes: "false"
+    Optimizer/Strategy: "1"
+    Optimizer/Robust: "true"
+    Icp/Epsilon: "0.01"
+    # RGBD/CreateOccupancyGrid: "true"
+    # RGBD/ProximityPathMaxNeighbors: "0"
+    # Grid/3D: "true"
+    # Reg/Strategy: "1"
+    # Reg/Force3DoF: "true"
+    Kp/MinDepth: "0.0"
+    Kp/MaxDepth: "0.0"
+    Grid/RayTracing: "false"
+    Grid/RangeMin: "0.3"
+    Grid/RangeMax: "3.0"
+    Grid/CellSize: "0.1"
+    Grid/NormalK: "10"
+    Grid/ClusterRadius: "0.2"
+    Grid/MinClusterSize: "5"

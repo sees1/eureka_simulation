@@ -33,6 +33,9 @@
   <!-- Xtion -->
   <xacro:include filename="$(find eureka_simulation)/description/sensors/asus_xtion.urdf.xacro" /> 
 
+  <!-- Realsense d415 -->
+  <xacro:include filename="$(find eureka_simulation)/description/sensors/realsense_d415.urdf.xacro" /> 
+
   <!-- GPS -->
   <xacro:include filename="$(find eureka_simulation)/description/sensors/gps.urdf.xacro" /> 
   

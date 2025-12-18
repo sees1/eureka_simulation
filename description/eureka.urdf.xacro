@@ -18,7 +18,7 @@
     <!-- Gazebo ROS2 Control -->
     <gazebo>
         <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-            <parameters>$(find eureka_simulation)/config/my_controllers.yaml</parameters>
+            <parameters>$(find eureka_simulation)/config/controller/my_controllers.yaml</parameters>
         </plugin>
     </gazebo>
 
@@ -167,11 +167,10 @@
     </xacro:sensor_hokuyo>   
 
     <xacro:sensor_asus_xtion prefix="camera" parent="base_link">
-        <origin xyz="0.215 0 0.065" rpy="0 0.4 0"/>
-        <!-- <origin xyz="0.212 0 0.065" rpy="0 0 0"/> -->
+        <origin xyz="0.215 0 0.065" rpy="0 0.3 0"/>
     </xacro:sensor_asus_xtion>
 
-    <xacro:sensor_imu prefix="imu" parent="camera_link">
+    <xacro:sensor_imu prefix="imu" parent="base_link">
         <!-- <origin xyz="-0.32 0 0.05" rpy="0 0.5 0"/> -->
         <origin xyz="0 0 0" rpy="0 0 0"/>
     </xacro:sensor_imu>

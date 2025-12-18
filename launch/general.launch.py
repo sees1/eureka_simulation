@@ -3,7 +3,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, ExecuteProcess
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -11,75 +11,50 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node, SetParameter
 
 ARGUMENTS = [
-    DeclareLaunchArgument('use_rviz', default_value='true',
-                          choices=['true', 'false'],
-                          description='Start rviz.'),
-    DeclareLaunchArgument('use_gazebo_gui', default_value='true',
-                          choices=['true', 'false'],
-                          description='Start gzclient.'),
-    DeclareLaunchArgument('spawn_robot', default_value='true',
-                          choices=['true', 'false'],
+    DeclareLaunchArgument('spawn_robot', default_value='True',
+                          choices=['True', 'False'],
                           description='Spawn the eureka robot model.'),
-    DeclareLaunchArgument('mapping_mode', default_value='false',
-                          choices=['true', 'false'],
-                          description='Make map with lidar'),
-    DeclareLaunchArgument('localization_mode', default_value='false',
-                          choices=['true', 'false'],
-                          description='Localize with lidar'),
-    DeclareLaunchArgument('navigation_mode', default_value='false',
-                          choices=['true', 'false'],
-                          description='Make Navigation with lidar'),
-    DeclareLaunchArgument('navigation_slam_mode', default_value='false',
-                          choices=['true', 'false'],
-                          description='Make Navigation SLAM with lidar'),
+    DeclareLaunchArgument('pose_estimator', default_value="'odometry'",
+                          choices = ["'eagleye'", "'rgbd_odometry'", "'odometry'"],
+                          description='Pose estimators for eureka robot'),
     DeclareLaunchArgument('model', default_value='eureka',
-                          description='Model to use for simulation'),
-    DeclareLaunchArgument('world_path', default_value='',
-                          description='Set world path, by default is empty.world'),
+                          description='Model to use for simulation')
 ]
 
 
 def generate_launch_description():
 
   package_name = 'eureka_simulation'
-  navigation_pkg = 'eureka_navigation'
 
   model_type = LaunchConfiguration('model')
+  spawn_robot = LaunchConfiguration('spawn_robot')
+  pose_estimator = LaunchConfiguration('pose_estimator')
 
-  robot_state = IncludeLaunchDescription(
-                      PythonLaunchDescriptionSource([os.path.join(
-                        get_package_share_directory(package_name), 'launch', 'robot_state.launch.py')
-                      ]), launch_arguments={'model': model_type}.items()
+  # launch's path
+  world_launch_path = os.path.join(get_package_share_directory(package_name), 'launch', 'world', 'world_create.launch.py')
+  localization_launch_path = os.path.join(get_package_share_directory(package_name), 'launch', 'navigation', 'localization.launch.py')
+  navigation_launch_path = os.path.join(get_package_share_directory(package_name), 'launch', 'navigation', 'navigation.launch.py')
+
+  # rviz config
+  rviz2_config = PathJoinSubstitution([get_package_share_directory(package_name), 'rviz', 'eureka.rviz'])
+
+  #--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  # world initialization
+  world = IncludeLaunchDescription(PythonLaunchDescriptionSource(world_launch_path),
+                                   launch_arguments={'model': model_type,
+                                                     'spawn_robot': spawn_robot}.items()
   )
 
-  gazebo_params_file = os.path.join(get_package_share_directory(package_name),'config','gazebo_params.yaml')
-  gazebo_world_file = os.path.join(get_package_share_directory(package_name), 'worlds', 'mars2.world')
-
-  gazebo = IncludeLaunchDescription(
-              PythonLaunchDescriptionSource([os.path.join(
-                  get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
-                  launch_arguments={'world': gazebo_world_file, 'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
+  # dynamic localization initialization
+  localization = IncludeLaunchDescription(PythonLaunchDescriptionSource(localization_launch_path),
+                                          launch_arguments={'pose_estimator': pose_estimator}.items()
   )
 
-  spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
-                      arguments=['-topic', 'robot_description',
-                                 '-entity', model_type,
-                                 '-x', '0.0',
-                                 '-y', '0.0'],
-                      output='screen',
-                      condition=IfCondition(LaunchConfiguration('spawn_robot'))
-  )
+  # mapping initialization
+  navigation = IncludeLaunchDescription(PythonLaunchDescriptionSource(navigation_launch_path))
 
-  mapping_node = IncludeLaunchDescription(
-                      PythonLaunchDescriptionSource([os.path.join(
-                        get_package_share_directory(navigation_pkg), 'launch', 'mapping.launch.py')
-                      ]),
-                      condition = IfCondition(LaunchConfiguration('mapping_mode'))
-  )
-
-  rviz2_config = PathJoinSubstitution(
-        [get_package_share_directory(package_name), 'rviz', 'eureka.rviz'])
-
+  # rviz initialization
   rviz = Node(package='rviz2',
              executable='rviz2',
              name='rviz2',
@@ -92,87 +67,12 @@ def generate_launch_description():
              output='screen'
   )
 
-  localization_node = IncludeLaunchDescription(
-                      PythonLaunchDescriptionSource([os.path.join(
-                        get_package_share_directory(navigation_pkg), 'launch', 'localization.launch.py')
-                      ]),
-                      condition = IfCondition(LaunchConfiguration('localization_mode'))
-  )
-
-  navigation_load = GroupAction([
-    ExecuteProcess(
-                cmd=[
-                    "ros2",
-                    "launch",
-                    "eureka_navigation",
-                    "localization.launch.py"
-                ]
-    ),
-    ExecuteProcess(
-                cmd=[
-                    "ros2",
-                    "launch",
-                    "eureka_navigation",
-                    "nav2.launch.py"
-                ]
-    )],
-    condition = IfCondition(LaunchConfiguration('navigation_mode'))
-  )
-
-  navigation_slam_load = GroupAction([
-    ExecuteProcess(
-                cmd=[
-                    "ros2",
-                    "launch",
-                    "eureka_navigation",
-                    "nav2tune.launch.py"
-                ]
-    )],
-    condition = IfCondition(LaunchConfiguration('navigation_slam_mode'))
-  )
-
-  ack_drive_spawner = Node(
-    package='controller_manager',
-    executable='spawner',
-    name='ack_drive_spawner',
-    arguments=["ack_cont"]
-  )
-
-  joint_broad_spawner = Node(
-    package='controller_manager',
-    executable='spawner',
-    name='joint_broad_spawner',
-    arguments=["joint_broad"]
-  )
-
-  ekf_for_odom = Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_filter_node',
-            output='screen',
-            parameters=[os.path.join(get_package_share_directory("eureka_simulation"), 'config', 'ekf.yaml')],
-  )
-
   use_sim_time_param = SetParameter(name='use_sim_time', value=True)
 
-  imu_filter = IncludeLaunchDescription(
-                      PythonLaunchDescriptionSource([os.path.join(
-                        get_package_share_directory('imu_filter_madgwick'), 'launch', 'imu_filter.launch.py')
-                      ])
-  )
-
   ld = LaunchDescription(ARGUMENTS)
-  ld.add_action(robot_state)
-  ld.add_action(gazebo)
-  ld.add_action(use_sim_time_param)
-  ld.add_action(spawn_entity)
-  ld.add_action(mapping_node)
+  ld.add_action(world)
+  ld.add_action(localization)
+  ld.add_action(navigation)
   ld.add_action(rviz)
-  ld.add_action(localization_node)
-  ld.add_action(navigation_load)
-  ld.add_action(navigation_slam_load)
-  ld.add_action(ack_drive_spawner)
-  ld.add_action(joint_broad_spawner)
-  ld.add_action(ekf_for_odom)
-  # ld.add_action(imu_filter)
+  ld.add_action(use_sim_time_param)
   return ld
