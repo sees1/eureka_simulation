@@ -33,7 +33,7 @@ def evaluate_spawn(context, *args, **kwargs):
   gazebo_params_file = os.path.join(get_package_share_directory(current_package_name),'config', 'world', 'gazebo_params.yaml')
 
   # world description path
-  gazebo_world_file = os.path.join(get_package_share_directory(current_package_name), 'worlds', 'mars2.world')
+  gazebo_world_file = os.path.join(get_package_share_directory(current_package_name), 'worlds', 'mars3.world')
 
   #-------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -53,7 +53,7 @@ def evaluate_spawn(context, *args, **kwargs):
                       arguments=['-topic', 'robot_description',
                                  '-entity', model,
                                  '-x', '0.0',
-                                 '-y', '4.5'],
+                                 '-y', '1.5'],
                       output='screen',
                       condition=IfCondition(PythonExpression([spawn_robot, " == True "]))
   )

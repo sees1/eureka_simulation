@@ -35,12 +35,23 @@ rtabmap:
     scan_normal_k: 0
     landmark_linear_variance: 0.0001
     landmark_angular_variance: 0.9999
+    # map_empty_ray_tracing: True
     Mem/IncrementalMemory: "true"
     Mem/InitWMWithAllNodes: "false"
-    Optimizer/Strategy: "2"
+    Optimizer/Strategy: "1"
     Optimizer/Robust: "true"
     Icp/Epsilon: "0.01"
+    # RGBD/CreateOccupancyGrid: "true"
     # RGBD/ProximityPathMaxNeighbors: "0"
+    # Grid/3D: "true"
+    # Reg/Strategy: "1"
+    # Reg/Force3DoF: "true"
+    Kp/MinDepth: "0.0"
+    Kp/MaxDepth: "0.0"
+    Grid/RayTracing: "false"
+    Grid/RangeMin: "0.3"
+    Grid/RangeMax: "3.0"
+    Grid/CellSize: "0.1"
     Grid/NormalK: "10"
     Grid/ClusterRadius: "0.2"
     Grid/MinClusterSize: "5"

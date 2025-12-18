@@ -43,6 +43,7 @@ def generate_launch_description():
         executable='rtabmap',
         name="rtabmap",
         output="screen",
+        # prefix='gdbserver :3000',
         parameters=[rtabmap_config_path],
         remappings=[
             ("/grid_prob_map", "/map"),
